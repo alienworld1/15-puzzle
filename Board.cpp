@@ -20,14 +20,6 @@ std::ostream &operator<<(std::ostream &out, const Board &board) {
   return out;
 }
 
-const Tile &Board::tileAt(const Point &point) const {
-  assert(point.x() >= 0 && point.x() < 4 && "out of bounds");
-  assert(point.y() >= 0 && point.y() < 4 && "out of bounds");
-
-  return m_board[static_cast<std::size_t>(point.y())]
-                [static_cast<std::size_t>(point.x())];
-}
-
 Tile &Board::tileAtMutable(const Point &point) {
   assert(point.x() >= 0 && point.x() < 4 && "out of bounds");
   assert(point.y() >= 0 && point.y() < 4 && "out of bounds");
@@ -60,5 +52,19 @@ bool Board::moveTile(Direction direction) {
   std::swap(tileAtMutable(m_emptyTile),
             tileAtMutable(m_emptyTile.getAdjacentPoint(direction)));
   m_emptyTile = m_emptyTile.getAdjacentPoint(direction);
+  return true;
+}
+
+bool Board::areTilesInOrder() const {
+  int tileCounter{1};
+  constexpr int numberOfTiles{Board::squareSize * Board::squareSize};
+
+  for (const auto &row : m_board) {
+    for (const auto &tile : row) {
+      if (tile.number() != tileCounter)
+        return false;
+      tileCounter = (tileCounter + 1) % numberOfTiles;
+    }
+  }
   return true;
 }

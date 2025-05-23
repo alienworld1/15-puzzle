@@ -15,7 +15,7 @@ public:
   friend std::ostream &operator<<(std::ostream &out, const Board &board);
   // returns true if the tile was successfully moved, false otherwise
   bool moveTile(Direction direction);
-  const Tile &tileAt(const Point &point) const;
+  bool areTilesInOrder() const;
 
 private:
   static constexpr int squareSize{4};

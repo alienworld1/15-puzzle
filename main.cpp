@@ -19,12 +19,16 @@ int main() {
     char command{UserInput::readCommandFromUser()};
     if (command == 'q')
       break;
-    // std::cout << "You entered direction: " << convertCharToDirection(command)
-    //           << '\n';
     if (board.moveTile(convertCharToDirection(command))) {
       std::cout << board;
     } else {
       std::cout << "That move is invalid.\n";
+      continue;
+    }
+
+    if (board.areTilesInOrder()) {
+      std::cout << "\n\nYou won!\n\n";
+      break;
     }
   }
 
