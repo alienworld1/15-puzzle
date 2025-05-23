@@ -1,6 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include "Direction.h"
+#include "Point.h"
 #include "Tile.h"
 #include <array>
 #include <ostream>
@@ -11,6 +13,9 @@ class Board {
 public:
   Board() = default;
   friend std::ostream &operator<<(std::ostream &out, const Board &board);
+  // returns true if the tile was successfully moved, false otherwise
+  bool moveTile(Direction direction);
+  const Tile &tileAt(const Point &point) const;
 
 private:
   static constexpr int squareSize{4};
@@ -24,6 +29,8 @@ private:
        {Tile{13}, Tile{14}, Tile{15}, Tile{0}}
 
       }};
+  Point m_emptyTile{3, 3};
+  Tile &tileAtMutable(const Point &point);
 };
 
 #endif // !BOARD_H
